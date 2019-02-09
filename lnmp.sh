@@ -5,9 +5,19 @@ export PATH
 apt-get update
 apt-get install curl wget -y
 
-echo -e “
-deb http://mirrors.asnet.am/dotdeb/ jessie all
-deb-src http://mirrors.asnet.am/dotdeb/ jessie all” >>/etc/apt/sources.list
+echo -e "
+deb http://ftp.us.debian.org/debian/ jessie main
+deb-src http://ftp.us.debian.org/debian/ jessie main
+
+deb http://security.debian.org/ jessie/updates main
+deb-src http://security.debian.org/ jessie/updates main
+
+# jessie-updates, previously known as 'volatile'
+deb http://ftp.us.debian.org/debian/ jessie-updates main
+deb-src http://ftp.us.debian.org/debian/ jessie-updates main
+
+deb http://packages.dotdeb.org jessie all
+deb-src http://packages.dotdeb.org jessie all" >/etc/apt/sources.list
 
 wget https://www.dotdeb.org/dotdeb.gpg
 apt-key add dotdeb.gpg
