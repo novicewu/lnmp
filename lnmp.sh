@@ -4,8 +4,10 @@ export PATH
 
 # System Requirement Debian 8
 
+#Define Variables
+echo && read -e -p "请输入域名: " web1
+
 apt-get update
-apt-get install curl wget -y
 
 echo -e "
 deb http://ftp.us.debian.org/debian/ jessie main
