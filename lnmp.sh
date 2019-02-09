@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
-apt-get update && apt-get upgrade
+apt-get update
 apt-get install curl wget -y
 
 echo -e “
@@ -12,7 +12,7 @@ deb-src http://mirrors.asnet.am/dotdeb/ jessie all” >>/etc/apt/sources.list
 wget https://www.dotdeb.org/dotdeb.gpg
 apt-key add dotdeb.gpg
 
-apt-get update && apt-get upgrade
+apt-get update
 
 apt-get install nginx -y
 
