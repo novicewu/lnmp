@@ -39,7 +39,7 @@ php -v
 echo -e "
 server {
 	listen 80;
-	server_name $web_url www$web_url;
+	server_name $web_url www.$web_url;
 	root $web_path;
 	index index.php index.html index.htm index.nginx-debian.html;
 
@@ -51,7 +51,7 @@ server {
 	error_page 500 502 503 504 /50x.html;
 
 	location = /50x.html {
-		root /$web_path;
+		root $web_path;
 	}
 
 	location ~ \\.php\$ {
@@ -78,6 +78,32 @@ mv wordpress/* .
 rm -rf wordpress
 rm -rf wordpress-4.9.4-zh_CN.tar.gz
 chmod -R 755 $web_path && chown www-data:www-data $web_path -R
+
+# Install Let’s Encrypt
+cd /root
+wget https://dl.eff.org/certbot-auto
+chmod a+x ./certbot-auto
+
+echo -e "
+server {
+    root $web_path;
+    server_name $web_url;
+    index  index.html index.htm index.php;
+
+    location ~ \\.php(.*)\$  {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_split_path_info  ^((?U).+\\.php)(/?.+)\$;
+        fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
+        fastcgi_param  PATH_INFO  \$fastcgi_path_info;
+        fastcgi_param  PATH_TRANSLATED  \$document_root\$fastcgi_path_info;
+        include        fastcgi_params;
+    }
+}" >/etc/nginx/conf.d/$web_url.conf
+
+systemctl restart nginx
+
+# Daily Check Certificate
 
 
 
